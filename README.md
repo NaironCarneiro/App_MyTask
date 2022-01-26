@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# App_myStasks
+# App_myTasks
 
 This project was developed for the Mobile Devices course. It consists of a daily task management application
 
