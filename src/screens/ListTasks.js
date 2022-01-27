@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Icon from "react-native-vector-icons/AntDesign";
+import Icons from "react-native-vector-icons/SimpleLineIcons";
 import {Button} from "react-native-elements";
 import CircleCheckBox, { LABEL_POSITION } from "react-native-circle-checkbox";
 import {
@@ -14,15 +15,26 @@ import { Styles } from "../components/Styles";
 function ListTasks({ navigation }) {
   const [checked, setChecked] = React.useState(false);
 
+  function logOutUser(){
+  // signOut().then(() => {
+  //   // Sign-out successful.
+  // }).catch((error) => {
+  //   // An error happened.
+  // });
+  alert("Em preparo")
+}
+
+
+
   return (
     <View style={{ flex:1, backgroundColor: "#6C98F0" }}>
       <SafeAreaView style={Styles.safeview}>
         <View style={Styles.viewHeader}>
-          <Icon
-              name="back"
-              size={26}
+          <Icons
+              name="logout"
+              size={24}
               color="black"
-              onPress={() => {}}
+              onPress={logOutUser}
             />
           <Text style={{ fontSize: 17, fontWeight: "bold" }}>Minhas Tarefas</Text>
           <Icon

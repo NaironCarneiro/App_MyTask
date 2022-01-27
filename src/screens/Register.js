@@ -3,11 +3,28 @@ import {StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity } from 're
 import { Styles } from '../components/Styles';
 import InputForm from '../components/InputForm';
 import TextButton from '../components/TextButton';
+// import {firebase} from "../services/Firebase";
+import firebase from "../services/firebase";
+// import firebase from 'firebase'
+import {auth} from "../services/firebase";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+// import "firebase/auth";
 
-function Register ({navigation}){
+function Register ({navigation}){  
     
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
 
+  async function createUser( ){ 
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(value =>{
+        alert("Usuário cadastrado !")
+        navigation.navigate('Login')
+      })
+      .catch(error => alert("Por favor insira um email e senha válidos"))
+    }
+  
         return (
             <View style={{backgroundColor:'#6C98F0',flex:1}}>
                 <SafeAreaView style={Styles.safeview} >
@@ -16,12 +33,18 @@ function Register ({navigation}){
                     </View>
                     
                     <View style={{ alignItems: 'center',flex:6}}>
-                        <InputForm title='Nome Completo' holder='Nome completo'/>
-                        <InputForm style={{ marginTop: 25 }} title='E-mail' holder='marcoslima@gmail.com'/>
-                        <InputForm style={{ marginTop: 25 }} title='Senha' holder='Senha' password={true} onChangeText={text => setPassword(text)}/>
+                        <InputForm title='Nome Completo' holder='Nome completo'
+                        onChangeText={(text) => setName(text)}/>
+
+                        <InputForm style={{ marginTop: 25 }} title='E-mail' holder='marcoslima@gmail.com' 
+                        value={email} onChangeText={value => setEmail(value)} />
+
+                        <InputForm style={{ marginTop: 25 }} title='Senha' holder='Senha' 
+                        value={password} password={true} onChangeText={value => setPassword(value)}/>
+                                                
                 
-                            <TextButton style={{ marginTop: 40 }} title='FINALIZAR CADASTRO' />
-                            
+                            <TextButton style={{ marginTop: 40 }} title='FINALIZAR CADASTRO' 
+                            onPress={()=>createUser()}/>
                     
 
                              </View>

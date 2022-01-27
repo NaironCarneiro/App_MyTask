@@ -38,7 +38,7 @@ export default function App() {
     <NavigationContainer theme={MyTheme}>
 
         <Stack.Navigator
-          initialRouteName="Welcome"
+          initialRouteName="Login"
           screenOptions={{
             headerShown: false,
             gestureEnabled: true,
@@ -51,11 +51,22 @@ export default function App() {
             },
           }}
         >
+        <Stack.Screen
+            name="Login"
+            component={Login}
+          />
 
           <Stack.Screen
-            name="AddTasks"
-            component={AddTasks}
+            name="Register"
+            component={Register}
           />
+
+        <Stack.Screen
+            name="ListTasks"
+            component={ListTasks}
+          />
+
+          
           </Stack.Navigator>
 
 
