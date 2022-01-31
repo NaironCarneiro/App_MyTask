@@ -1,15 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
+
+import { useFonts } from 'expo-font';
+import * as React from 'react';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { StyleSheet, Text, View } from 'react-native';
+import { AppProvider } from './src/components/AppContext';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import Login from './src/screens/Login';
 import Register from './src/screens/Register';
 import ListTasks from './src/screens/ListTasks';
 import CompletedTasks from './src/screens/CompletedTasks';
 import NewTask from './src/screens/NewTask';
-import AddTasks from './src/screens/AddTasks';
-import { useFonts } from 'expo-font';
-import * as React from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { StyleSheet, Text, View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditTask from './src/screens/EditTask';
+import TaskUpdate from './src/screens/TaskUpdate';
+import FinishTask from './src/screens/FinishTask';
 
 export default function App() {
 
@@ -36,7 +41,7 @@ export default function App() {
 
   return (
     <NavigationContainer theme={MyTheme}>
-
+      <AppProvider>
         <Stack.Navigator
           initialRouteName="Login"
           screenOptions={{
@@ -67,9 +72,30 @@ export default function App() {
           />
 
           
+          <Stack.Screen
+            name="NewTask"
+            component={NewTask}
+          />
+          
+          <Stack.Screen
+            name="TaskUpdate"
+            component={TaskUpdate}
+          />
+
+          <Stack.Screen
+            name="CompletedTasks"
+            component={CompletedTasks}
+          />
+
+
+          <Stack.Screen
+            name="FinishTask"
+            component={FinishTask}
+          />
+
+
           </Stack.Navigator>
-
-
+          </AppProvider>
   </NavigationContainer>
   );
 }

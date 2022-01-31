@@ -4,7 +4,7 @@ export const Styles = StyleSheet.create({
   safeview: {
     flex:1,
     backgroundColor: "#FFF",
-    marginTop: 50,
+    marginTop:40
   },
   title: {
     flex: 1,
@@ -41,6 +41,7 @@ export const Styles = StyleSheet.create({
   },
 
   button: {
+    backgroundColor:"red",
     backgroundColor: "#20B2AA",
     width: 343,
     height: 52,
@@ -50,9 +51,13 @@ export const Styles = StyleSheet.create({
 
   textButtonGoogle: {
     fontSize: 13,
+    height:40,
     textAlign: "center",
     fontWeight: "700",
     fontFamily: "Roboto",
+
+    
+    
   },
 
   buttonGoogle: {
@@ -60,7 +65,7 @@ export const Styles = StyleSheet.create({
     width: 343,
     height: 52,
     borderRadius: 8,
-    justifyContent: "center",
+    
   },
 
   viewHeader: {
@@ -73,13 +78,23 @@ export const Styles = StyleSheet.create({
     shadowColor: "black",
   },
   viewList: {
-    marginTop: 10,
     height: 90,
     alignItems: "center",
     justifyContent: "space-around",
     flexDirection: "row",
     borderBottomWidth: 2,
   },
+
+  viewListFinal:{
+    backgroundColor:"#a0a0a0",
+    height: 90,
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    borderBottomWidth: 2,
+
+  },
+
   imageList: {
     borderRadius: 100,
     width: 74,
@@ -92,24 +107,44 @@ export const Styles = StyleSheet.create({
     marginBottom: 10,
   },
   viewIFooter: {
+    backgroundColor:'blue',
     alignContent: "center",
     alignContent:'flex-end',
-    marginTop:400,
-    height: 150,
+    // marginTop:400,
+    // height: 150,
     flexDirection:'row',
     justifyContent:'space-around',
     alignItems:'center',
-    margin:-30
+    // margin:-30
   },
 
 
   buttonTasks:{
+      position:'absolute',
+      marginTop:662,
       backgroundColor:'#6C98F0',
+      marginLeft:35,
+      // marginBottom:20,
       borderRadius:200,
       height: 44,
       width:180,
       
+      
   },
+  btnFloating:{
+    position:'absolute',
+    backgroundColor:"#FFA800",
+    // marginTop:650,
+    bottom:80,
+    marginLeft:280,
+    height:80,
+    width:80, 
+    borderRadius:200,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+
+
 
   viewNewTasks:{
   flexDirection:'row', 
@@ -131,5 +166,7 @@ export const Styles = StyleSheet.create({
      backgroundColor:'#20B2AA', 
     borderRadius:10,
     
-  }
+  },
+
+  
 });

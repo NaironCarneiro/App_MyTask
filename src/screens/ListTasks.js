@@ -1,42 +1,111 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/AntDesign";
 import Icons from "react-native-vector-icons/SimpleLineIcons";
-import {Button} from "react-native-elements";
-import CircleCheckBox, { LABEL_POSITION } from "react-native-circle-checkbox";
+import ModelListTask from "../components/ModelListTask";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import {db} from "../services/firebase";
+import {auth} from "../services/firebase";
+import {AppContext} from '../components/AppContext';
+
 import {
-  Image,
+  Alert,
   Text,
   View,
+  FlatList,
+  ActivityIndicator,
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import { Styles } from "../components/Styles";
 
-function ListTasks({ navigation }) {
-  const [checked, setChecked] = React.useState(false);
 
-  function logOutUser(){
-  // signOut().then(() => {
-  //   // Sign-out successful.
-  // }).catch((error) => {
-  //   // An error happened.
-  // });
-  alert("Em preparo")
+ function ListTasks({ navigation }) {
+
+  const [loading, setLoading] = useState(false);
+  const [tasks, setTasks] = useState(null);
+  const [user] = useState([]);
+  const {idTask} = useContext(AppContext);  
+
+const FuncResete = () => {
+
+  navigation.reset({
+    index:0,
+    routes: [{name: "Login"}]
+  })
+
+}
+  
+
+function logOutUser(){  
+        auth.signOut().then(value =>{
+          Alert.alert(
+            "Atenção",
+            "Deseja realmente sair da conta ?",
+            [
+              {
+                text: "Não",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "Sim", onPress: () => FuncResete() }
+            ]
+          );
+  }
+  ).catch((error) => {
+  alert("error")
+  });
 }
 
+    const [msg, setMsg] = useState('');
 
+    useEffect(() => {
+        let tasksList = [];
+        async function loadTasks() {
+          const querySnapshot = await getDocs(collection(db, "tasks"));
+          querySnapshot.forEach(task => {
+            const user = {
+              id : task.id,
+              description : task.data().description,
+              data : task.data().data,
+              hour : task.data().hour
+            };
+            tasksList.push(user);
+          });
+
+          
+            setTasks(tasksList);
+
+        }
+        loadTasks();
+    }, []);
+
+
+
+    function displayMsg(txt) {
+        setMsg(txt);
+    }
+
+
+function acessNewTask(){
+  navigation.navigate('NewTask')
+  
+}
+
+if (loading){
+  return<ActivityIndicator/>
+}
 
   return (
     <View style={{ flex:1, backgroundColor: "#6C98F0" }}>
       <SafeAreaView style={Styles.safeview}>
         <View style={Styles.viewHeader}>
-          <Icons
+          <Icons  
               name="logout"
               size={24}
               color="black"
               onPress={logOutUser}
             />
-          <Text style={{ fontSize: 17, fontWeight: "bold" }}>Minhas Tarefas</Text>
+          <Text style={{ fontSize: 17, fontWeight: "bold" }}>Minhas Tarefas </Text>
           <Icon
               name="search1"
               size={26}
@@ -45,44 +114,40 @@ function ListTasks({ navigation }) {
             />
         </View>
 
-        <View style={{flex:1}}>
-          <View style={Styles.viewList}>
-            <Image
-              source={require("../../assets/Ellipse.jpeg")}
-              style={Styles.imageList}
+        <View style={{ flex:2}}>
+        
+              <FlatList
+                data={tasks}
+                
+                 renderItem={({ item }) =>                  
+                    <TouchableOpacity  activeOpacity={0.8} onPress={() => navigation.navigate("TaskUpdate", 
+                     {id:item.id, description : item.description, data: item.data, hour : item.hour})}>
+                      
+                    <ModelListTask  task={item} onAdd={displayMsg}/>
+                    
+                    </TouchableOpacity>
+                    
+                    
+                }
+                
+                
             />
-            <View>
-              <Text style={{ fontSize: 13, fontWeight: "bold" }}>Reunião com meus sócios</Text>
-              <Text style={{ fontSize: 13, marginBottom: 25, marginTop: 5 }}>
-                Hoje, ás 14:00
-              </Text>
-            </View>
-            <View style={Styles.completed}>
-              <Text style={{ marginBottom: 8, fontSize: 11 }}>Concluída</Text>
-              <CircleCheckBox
-                checked={true}
-                onToggle={(checked) => console.log("My state is: ", checked)}
-                labelPosition={LABEL_POSITION.RIGHT}
-              />
-            </View>
-          </View>
+            
+                {/* <View style={{ marginTop: 300, justifyContent: 'space-between', 
+                alignItems: 'center'  }}>
+                    <Text style={{alignContent:'center', fontWeight:'bold'}}>VOCÊ NÃO POSSUI NENHUMA TAREFA</Text>
+                </View> */}
+                
+                
+          
+                
+       </View>
        
+           <TouchableOpacity activeOpacity={1.0} style={Styles.btnFloating} onPress={acessNewTask}>
+             <Text style={{fontSize:60, color:"white"}}>+</Text>
+          </TouchableOpacity> 
 
-        <View style={Styles.viewIFooter}>
-            <Button buttonStyle={Styles.buttonTasks}
-            title ="Tarefas Concluídas"
-            // onPress={() => Alert.alert('Simple Button pressed')}
-        />
-          <TouchableOpacity activeOpacity={0.8}>
-            <Icon
-              name="pluscircle"
-              size={70}
-              
-              color="#FFA800"
-            />
-          </TouchableOpacity>
-          </View>
-        </View>
+      
       </SafeAreaView>
     </View>
   );

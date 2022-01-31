@@ -36,11 +36,16 @@ function Login ({navigation}){
         // console.log("aqui de novo")
         // return result;
         alert('Em desenvolvimento')
-          
+    }
+
+    const funcLog = () => {
+        navigation.reset({
+            index:0,
+            routes: [{name: "ListTasks"}]
+
+        })
         
     }
-  
-   
 
     async function singIn(){
     if ((!email) || (email == '')) {
@@ -52,12 +57,16 @@ function Login ({navigation}){
         setMsg('Senha inválida');
         return;
     }
-
+    
     setMsg(null);
         
         await signInWithEmailAndPassword(auth, email, password)
           .then(value =>{
-        navigation.navigate('ListTasks');
+            // auth.signInWithEmailAndPassword(email, password).then(userCredential => {
+                // setUser(userCredential);
+            
+                funcLog()
+       
     }
     ).catch((error) => {
         if (error.code = 'auth/wrong-password') {
@@ -77,7 +86,7 @@ function Login ({navigation}){
             setMsg('insira um email válido');
             return;
         }
-    
+        // auth.sendPasswordResetEmail(email).then(() => setMsg('E-mail de recuperação de senha enviado'));
         await sendPasswordResetEmail(auth, email).then(() => alert('E-mail de recuperação de senha enviado'));
 
     }
@@ -85,17 +94,17 @@ function Login ({navigation}){
         return (
             <View style={{backgroundColor:'#6C98F0',flex:1}}>
                 <SafeAreaView style={Styles.safeview} >
-                    <View style={{ flex:1}}>
+                    <View style={{ height: 100}}>
                             <Text style={Styles.title}>Login</Text>
                     </View>
                     
-                    <View style={{ alignItems: 'center',flex:6}}>
+                    <View style={{ alignItems: 'center', flex:6}}>
                     <Text style={{ textAlign: 'center', color: '#F99928' }}>{msg}</Text>
                         <InputForm title='E-mail' holder='marcoslima@gmail.com' value={email}  onChangeText={value => setEmail(value)}/>
                         <InputForm style={{ marginTop: 25 }} title='Senha' holder='Senha' value={password} password={true} onChangeText={value => setPassword(value)}/>
                 
                             <TextButton style={{ marginTop: 40 }} title='ACESSAR'  onPress={singIn}/>
-                            <TextButtonGoogle style={{ marginTop: 20}} title='GOOGLE' onPress={singInGoogle}/>
+                            <TextButtonGoogle style={{ marginTop: 20}} title='  GOOGLE' onPress={singInGoogle}/>
                              <TouchableOpacity onPress={forgotPassword}>
                             <Text style={{ color: '#0D15DB', textAlign: 'right', marginVertical: 40, fontSize:16}}>Esqueci minha senha</Text>
                              </TouchableOpacity> 
@@ -109,7 +118,7 @@ function Login ({navigation}){
                              </View>
                 </SafeAreaView>
 
-            </View>
+             </View>
         );
 
 }
