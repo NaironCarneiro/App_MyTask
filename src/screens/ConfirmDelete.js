@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-
-import { Text, View, Image, SafeAreaView } from "react-native";
+import TextButton from '../components/TextButton';
+import { Text, View, Image, SafeAreaView} from "react-native";
 import { Styles } from "../components/Styles";
-import TextButton from "../components/TextButton";
 
-function FinishTask({ navigation }) {
-  const finalTask = () => {
+function ConfirmDelete({ navigation }) {
+  const TaskDel = () => {
     navigation.reset({
       index: 0,
       routes: [{ name: "ListTasks" }],
@@ -16,7 +15,7 @@ function FinishTask({ navigation }) {
     <View style={{ flex: 1, backgroundColor: "#6C98F0" }}>
       <SafeAreaView style={Styles.safeview}>
         <View style={Styles.viewHeader}>
-          <Text style={{ fontSize: 17, fontWeight: "bold" }}>Finalizado !</Text>
+          <Text style={{ fontSize: 17, fontWeight: "bold" }}>Exclusão !</Text>
         </View>
         <View
           style={{
@@ -26,18 +25,18 @@ function FinishTask({ navigation }) {
           }}
         >
           <Image
-            source={require("../../assets/Rectangle.png")}
+            source={require("../../assets/delete.png")}
             style={Styles.imageExit}
           />
           <Text style={{ marginTop: 20, fontSize: 25, fontWeight: "bold" }}>
-            Tarefa adicionada !
+            Tarefa Excluída !
           </Text>
         </View>
         <View style={{ marginTop: 100, alignItems: "center" }}>
-          <TextButton style={Styles.btnExit} title="SAIR" onPress={finalTask} />
+          <TextButton style={Styles.btnExit} title="SAIR" onPress={TaskDel} />
         </View>
       </SafeAreaView>
     </View>
   );
 }
-export default FinishTask;
+export default ConfirmDelete;
